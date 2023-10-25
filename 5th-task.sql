@@ -6,8 +6,8 @@
 
 CREATE TABLE public.shipping_status (
 	shipping_id int8 NOT NULL,
-	status text NOT NULL,
-	state text NOT NULL,
+	status varchar(15) NOT NULL,
+	state varchar(15) NOT NULL,
 	shipping_start_fact_datetime timestamp NULL,
 	shipping_end_fact_datetime timestamp NULL
 );

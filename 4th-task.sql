@@ -33,12 +33,12 @@ ADD CONSTRAINT unique_shipping_id UNIQUE (shipping_id);
 -- Заполнение уникальными данными таблицы shipping_info из отношения shipping и трёх ранее созданных справочников
 
 insert into shipping_info (shipping_id, vendor_id, payment_amount, shipping_plan_datetime, shipping_transfer_id, shipping_agreement_id, shipping_country_rate_id)
-distinct select s.shippingid, s.vendorid, s.payment_amount, s.shipping_plan_datetime, st.id as shipping_transfer_id, sa.agreement_id as shipping_agreeement_id, scr.id as shipping_country_rate_id
+select distinct s.shippingid, s.vendorid, s.payment_amount, s.shipping_plan_datetime, st.id as shipping_transfer_id, sa.agreement_id as shipping_agreeement_id, scr.id as shipping_country_rate_id
 from shipping s inner join shipping_country_rates scr on 
 scr.shipping_country = s.shipping_country
 inner join shipping_agreement sa 
 ON (SELECT (REGEXP_SPLIT_TO_ARRAY(s.vendor_agreement_description, ':'))[1]) = cast(sa.agreement_id as text)
-inner join shipping_transfer st 
+left join shipping_transfer st 
 on s.shipping_transfer_description = concat(st.transfer_type, ':', st.transfer_model);
 
 
