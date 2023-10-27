@@ -29,7 +29,7 @@ max_state_datetime AS (
 
 insert into shipping_status (shipping_id, status, state, shipping_start_fact_datetime, shipping_end_fact_datetime)
 select s.shippingid, s.status, s.state, sd.shipping_start_fact_datetime, sd.shipping_end_fact_datetime from shipping_data sd
-inner join max_state_datetime msd on msd.shippingid = sd.shippingid
+right join max_state_datetime msd on msd.shippingid = sd.shippingid
 inner join shipping s 
 on s.shippingid = msd.shippingid and msd.max_datetime = s.state_datetime 
 order by s.shippingid
